@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="corTituloCorpo">@android:color/white</color>
+    <color name="corTituloFundo">#994545</color>
+
+    <color name="corUsuarioCorpo">@android:color/black</color>
+    <color name="corUsuarioFundo">#fffde7</color>
+
+    <color name="corListaUsuariosFundo">@android:color/white</color>
 </resources>
