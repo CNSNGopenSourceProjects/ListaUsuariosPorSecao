@@ -1,11 +1,3 @@
 <resources>
     <string name="app_name">Lista Seções de Usuários</string>
-    <!-- identificação dos grupos de acordo com a ordenação dos usuários -->
-    <string name="legenda_ordenado_por_idade">%i anos</string>
-    <string name="legenda_ordenado_por_sobrenome">Sobrenome %c</string>
-    <string name="legenda_ordenado_por_nome">Nome %c</string>
-    <!-- apresentação dos dados dos usuários de acordo com sua ordenação -->
-    <string name="usuario_ordenado_por_idade">%s %s: %i anos</string>
-    <string name="usuario_ordenado_por_sobrenome">%s, %s: %i anos</string>
-    <string name="usuario_ordenado_por_nome">%i anos: %s %s</string>
 </resources>

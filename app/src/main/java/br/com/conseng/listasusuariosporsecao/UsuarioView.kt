@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import br.com.conseng.listasusuariosporsecao.Usuario.DefineDadoParaComparacao
 import kotlinx.android.synthetic.main.view_usuario.view.*
 
@@ -41,11 +42,11 @@ class UsuarioView : LinearLayout {
     /**
      * Nome do grupo.  Por default é GONE.
      */
-    private val nomeDoGrupo = txt_usuario_nome_grupo
+    private var nomeDoGrupo: TextView? = null
     /**
      * Nome do usuário. Por defualt é vazio.
      */
-    private val nomeDoUsuario = txt_usuario_nome
+    private var nomeDoUsuario: TextView? = null
 
     /**
      * Mostra um usuário na tela.  Se for o primeiro do grupo, apresenta a legenda de identificação do grupo.
@@ -88,6 +89,8 @@ class UsuarioView : LinearLayout {
      */
     private fun init() {
         View.inflate(getContext(), R.layout.view_usuario, this)
+        nomeDoGrupo = txt_usuario_nome_grupo
+        nomeDoUsuario = txt_usuario_nome
     }
 
     /**
@@ -100,9 +103,10 @@ class UsuarioView : LinearLayout {
     fun mostraUsuario(novoUsuario: Usuario, usuarioAnterior: Usuario, ordem: Usuario.DefineDadoParaComparacao) {
         var mostrarGrupo = false
         if (usuarioAnterior.isEmpty()) {
-            mostrarGrupo = true
+            mostrarGrupo = if (Usuario.DefineDadoParaComparacao.SEM_ORDENACAO == ordem) false else true
         } else when (ordem) {
             Usuario.DefineDadoParaComparacao.SEM_ORDENACAO -> {
+                mostrarGrupo = false
             }
             Usuario.DefineDadoParaComparacao.NOME -> {
                 mostrarGrupo = novoUsuario.nome.get(0) != usuarioAnterior.nome.get(0)
@@ -114,9 +118,10 @@ class UsuarioView : LinearLayout {
                 mostrarGrupo = novoUsuario.sobrenome.get(0) != usuarioAnterior.sobrenome.get(0)
             }
         }
-        nomeDoUsuario.text = identificaUsuario(novoUsuario, ordem)
-        nomeDoGrupo.text = identificaGrupo(novoUsuario, ordem)
-        nomeDoGrupo.visibility = if (mostrarGrupo) View.VISIBLE else View.GONE
+        nomeDoUsuario!!.text = identificaUsuario(novoUsuario, ordem)
+        nomeDoUsuario!!.visibility = View.VISIBLE
+        nomeDoGrupo!!.text = identificaGrupo(novoUsuario, ordem)
+        nomeDoGrupo!!.visibility = if (mostrarGrupo) View.VISIBLE else View.GONE
     }
 
     /**
@@ -128,13 +133,13 @@ class UsuarioView : LinearLayout {
     private fun identificaGrupo(usuario: Usuario, ordem: Usuario.DefineDadoParaComparacao): String {
         when (ordem) {
             DefineDadoParaComparacao.IDADE -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_idade), usuario.idade)
+                return "${usuario.idade} anos"
             }
             DefineDadoParaComparacao.SOBRENOME -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_sobrenome), usuario.sobrenome.get(0))
+                return "Sobrenome: ${usuario.sobrenome.get(0)}"
             }
             Usuario.DefineDadoParaComparacao.NOME -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_nome), usuario.nome.get(0))
+                return "Nome: ${usuario.nome.get(0)}"
             }
             else -> {
                 return ""
@@ -153,15 +158,24 @@ class UsuarioView : LinearLayout {
     private fun identificaUsuario(usuario: Usuario, ordem: DefineDadoParaComparacao): String {
         when (ordem) {
             DefineDadoParaComparacao.IDADE -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_idade), usuario.nome, usuario.sobrenome, usuario.idade)
+                return "${usuario.idade} anos : ${usuario.nome} ${usuario.sobrenome}"
+
             }
             DefineDadoParaComparacao.SOBRENOME -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_sobrenome), usuario.sobrenome, usuario.nome, usuario.idade)
+                return "${usuario.sobrenome}, ${usuario.nome} : ${usuario.idade} anos"
             }
             DefineDadoParaComparacao.SEM_ORDENACAO,
             DefineDadoParaComparacao.NOME -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_nome), usuario.idade, usuario.nome, usuario.sobrenome)
+                return "${usuario.nome}  ${usuario.sobrenome} : ${usuario.idade} anos"
             }
         }
+    }
+
+    /**
+     * Apresenta o conteúdo da classe.
+     * @return "grupo:[txt_usuario_nome_grupo] - usuário:[txt_usuario_nome]"
+     */
+    override fun toString(): String {
+        return "grupo: ${txt_usuario_nome_grupo.text.toString()} - usuário: ${txt_usuario_nome.toString()}"
     }
 }

@@ -45,7 +45,13 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
      * @return The data at the specified position.
      */
     override fun getItem(position: Int): Usuario {
-        return if (position < 0) Usuario() else listaUsuarios.get(position)
+        var view: Usuario
+        if (position < 0) {
+            view = Usuario()
+        } else {
+            view = listaUsuarios.get(position)
+        }
+        return view
     }
 
     /**
@@ -114,7 +120,7 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
             else -> {
             }
         }
-        if ((Usuario.DefineDadoParaComparacao.SEM_ORDENACAO != ordem) and (ordenacao != ordem)){
+        if ((Usuario.DefineDadoParaComparacao.SEM_ORDENACAO != ordem) and (ordenacao != ordem)) {
             notifyDataSetChanged()      //Força a atualização da tela se houve alteração na ordenação
         }
         ordenacao = ordem

@@ -74,10 +74,11 @@ class Usuario {
 
     /**
      * Apresenta o conteúdo da classe.
-     * @return "[idUsuario][nome] [sobrenome], [idade]"
+     * @return "[nome] [sobrenome], [idade]"
      */
     override fun toString(): String {
-        return "[$this.idUsuario] $this.nome $this.sobrenome, $this.idade"
+        val texto = if (isEmpty()) "Usuário: VAZIO" else "Usuário: ${nome} ${sobrenome}, ${idade} anos"
+        return texto
     }
 
     /**
@@ -103,8 +104,9 @@ class Usuario {
                 res = u1.nome.compareTo(u2.nome)
                 if (0 == res) {
                     res = u1.sobrenome.compareTo(u2.sobrenome)
-                } else if (0 == res) {
-                    res = u1.idade.compareTo(u2.idade)
+                    if (0 == res) {
+                        res = u1.idade.compareTo(u2.idade)
+                    }
                 }
             }
             return res
@@ -134,8 +136,9 @@ class Usuario {
                 res = u1.sobrenome.compareTo(u2.sobrenome)
                 if (0 == res) {
                     res = u1.nome.compareTo(u2.nome)
-                } else if (0 == res) {
-                    res = u1.idade.compareTo(u2.idade)
+                    if (0 == res) {
+                        res = u1.idade.compareTo(u2.idade)
+                    }
                 }
             }
             return res
@@ -164,9 +167,10 @@ class Usuario {
             } else {
                 res = u1.idade.compareTo(u2.idade)
                 if (0 == res) {
-                    res =u1.nome.compareTo(u2.nome)
-                } else if (0 == res) {
-                    res = u1.sobrenome.compareTo(u2.sobrenome)
+                    res = u1.nome.compareTo(u2.nome)
+                    if (0 == res) {
+                        res = u1.sobrenome.compareTo(u2.sobrenome)
+                    }
                 }
             }
             return res
