@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var apresentaUsuarios : UsuariosAdapter? = null
+    var adapter: UsuariosAdapter? = null
     val todosUsuarios = ArrayList<Usuario>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,28 +20,35 @@ class MainActivity : AppCompatActivity() {
         btnOrdenarPeloSobrenome.setOnClickListener{ordenarPeloSobreome()}
         btnOrdenarPelaIdade.setOnClickListener{ordenarPelaIdade()}
 
-        apresentaUsuarios= UsuariosAdapter()
+        adapter = UsuariosAdapter(this, todosUsuarios)
+        viewsUsuarios.adapter = adapter
     }
 
     /**
      * Apresenta a lista de usuários ordenada pelo nome.
      */
     fun ordenarPeloNome() {
-        Toast.makeText(this,"Por implementar a ordenação dos usuários pelo nome", Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Ordenar os usuários pelo nome", Toast.LENGTH_LONG).show()
+        adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.NOME)
+        viewsUsuarios.invalidate()
     }
 
     /**
      * Apresenta a lista de usuários ordenada pelo sobrenome.
      */
     fun ordenarPeloSobreome() {
-        Toast.makeText(this, "Por implementar a ordenação dos usuários pelo sobrenome", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Ordenar os usuários pelo sobrenome", Toast.LENGTH_LONG).show()
+        adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.SOBRENOME)
+        viewsUsuarios.invalidate()
     }
 
     /**
      * Apresenta a lista de usuários ordenada pela idade.
      */
     fun ordenarPelaIdade() {
-        Toast.makeText(this,"Por implementar a ordenação dos usuários pela idade", Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Ordenar os usuários pela idade", Toast.LENGTH_LONG).show()
+        adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.IDADE)
+        viewsUsuarios.invalidate()
     }
 
     /**

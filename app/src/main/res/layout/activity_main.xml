@@ -1,56 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.com.conseng.listasusuariosporsecao.MainActivity">
 
-    <Button
-        android:id="@+id/btnOrdenarPeloNome"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Nome"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnOrdenarPeloSobrenome" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnOrdenarPeloSobrenome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Sobrenome"
-        app:layout_constraintBottom_toTopOf="@+id/listaUsuarios"
-        app:layout_constraintEnd_toStartOf="@+id/btnOrdenarPelaIdade"
-        app:layout_constraintStart_toEndOf="@+id/btnOrdenarPeloNome"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/btnOrdenarPeloNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="Nome" />
 
-    <Button
-        android:id="@+id/btnOrdenarPelaIdade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Idade"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnOrdenarPeloSobrenome" />
+        <Button
+            android:id="@+id/btnOrdenarPeloSobrenome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="2"
+            android:padding="8dp"
+            android:text="Sobrenome" />
+
+        <Button
+            android:id="@+id/btnOrdenarPelaIdade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="Idade" />
+    </LinearLayout>
 
     <ListView
-        android:id="@+id/listaUsuarios"
-        android:layout_width="368dp"
-        android:layout_height="441dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="62dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/corListaUsuariosFundo"/>
-    </ListView>
-</android.support.constraint.ConstraintLayout>
+        android:id="@+id/viewsUsuarios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/corListaUsuariosFundo" />
+</LinearLayout>
