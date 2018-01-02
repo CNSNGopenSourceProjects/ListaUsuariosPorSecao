@@ -14,62 +14,25 @@ class Usuario {
     enum class DefineDadoParaComparacao { SEM_ORDENACAO, NOME, SOBRENOME, IDADE }
 
     /**
-     * Disponibiliza o nome do usuário.
      * O nome do usuário não pode ser vazio e deve iniciar por uma letra.
      * Seu conteúdo será vazio, apenas se a classe foi criada como EmptyClass.
      */
-    private var nome: String = ""
-    /**
-     * O nome do usuário será vazio, apenas se a classe foi criada como EmptyClass.
-     * @return Nome do usuário.
-     */
-    fun getNome(): String {
-        return this.nome
-    }
+    var nome: String = ""
+        private set
 
     /**
-     * Disponibiliza o sobrenome do usuário.
      * O sobrenome do usuário não pode ser vazio e deve iniciar por uma letra.
      * Seu conteúdo será vazio, apenas se a classe foi criada como EmptyClass.
      */
-    private var sobrenome: String = ""
-    /**
-     * O sobrenome do usuário será vazio, apenas se a classe foi criada como EmptyClass.
-     * @return Sobrenome do usuário.
-     */
-    fun getSobrenome(): String {
-        return this.sobrenome
-    }
+    var sobrenome: String = ""
+        private set
 
     /**
-     * Disponibiliza a idade do usuário.
+     * A idade do usuário deve ser um valor entre 1 e 150.
      * Seu conteúdo será zero, apenas se a classe foi criada como EmptyClass.
      */
-    private var idade: Int = 0
-    /**
-     * A idade do usuário será vazio, apenas se a classe foi criada como EmptyClass.
-     * @return Idade do usuário.
-     */
-    fun getIdade(): Int {
-        return this.idade
-    }
-
-    /**
-     * Identificador UUID único instância desta classe.
-     */
-    private val idUsuario =  UUID.randomUUID()
-    /**
-     * Identificador único da instância desta classe.
-     */
-    fun getThisInstanceId(): Long {
-        return this.idUsuario.hashCode().toLong()
-    }
-
-    /**
-     * Preserva a posição da classe na array.  Deve ser inicializado pela aplicação.
-     * Valores negativos indica que nenhuma posição foi salva.
-     */
-    var posUsuario: Int = -1
+    var idade: Int = 0
+        private set
 
     /**
      * Preserva os dados do usuário.
@@ -110,64 +73,103 @@ class Usuario {
     }
 
     /**
-     * Compara os dados do [usuario] contra os dados desta classe, utilizando a seguinte ordem de prioridade:
-     * NOME, SOBRENOME e IDADE.
-     * @param [usuario] A classe a ser comparada com a classe atual.
-     * @return 0, se mesmo nome, sobrenome e idades iguais.
-     * <0 se o nome da classe atual for menor; ou se o nome for igual, mas o sobrenome for menor; ou se o nome e o sobrenome forem iguais, mas a idade for menor.
-     * >0 se o nome da classe atual for maior; ou se o nome for igual, mas o sobrenome for maior; ou se o nome e o sobrenome forem iguais, mas a idade for maior.
-     */
-    fun comparatorByNome(usuario: Usuario): Int {
-        var res = this.nome.compareTo(usuario.getNome())
-        if (0 == res) {
-            res = this.sobrenome.compareTo(usuario.getSobrenome())
-        } else if (0 == res) {
-            res = this.idade.compareTo(usuario.getIdade())
-        }
-        return res
-    }
-
-    /**
-     * Compara os dados do [usuario] contra os dados desta classe, utilizando a seguinte ordem de prioridade:
-     * SOBRENOME, NOME e IDADE.
-     * @param [usuario] A classe a ser comparada com a classe atual.
-     * @return 0, se mesmo nome, sobrenome e idades iguais.
-     * <0 se o sobrenome da classe atual for menor; ou se o sobrenome for igual, mas o nome for menor; ou se o sobrenome e o nome forem iguais, mas a idade for menor.
-     * >0 se o sobrenome da classe atual for maior; ou se o sobrenome for igual, mas o nome for maior; ou se o sobrenome e o nome forem iguais, mas a idade for maior.
-     */
-    fun comparatorBySobrenome(usuario: Usuario): Int {
-        var res = this.sobrenome.compareTo(usuario.getSobrenome())
-        if (0 == res) {
-            res = this.nome.compareTo(usuario.getNome())
-        } else if (0 == res) {
-            res = this.idade.compareTo(usuario.getIdade())
-        }
-        return res
-    }
-
-    /**
-     * Compara os dados do [usuario] contra os dados desta classe, utilizando a seguinte ordem de prioridade:
-     * IDADE, NOME e SOBRENOME.
-     * @param [usuario] A classe a ser comparada com a classe atual.
-     * @return 0, se mesmo nome, sobrenome e idades iguais.
-     * <0 se a idade da classe atual for menor; ou se a idade for igual, mas o nome for menor; ou se a idade e o nome forem iguais, mas o sobrenome for menor.
-     * >0 se a idade da classe atual for maior; ou se a idade for igual, mas o nome for maior; ou se a idade e o nome forem iguais, mas o sobrenome for maior.
-     */
-    fun comparatorByIdade(usuario: Usuario): Int {
-        var res = this.idade.compareTo(usuario.getIdade())
-        if (0 == res) {
-            res = this.nome.compareTo(usuario.getNome())
-        } else if (0 == res) {
-            res = this.sobrenome.compareTo(usuario.getSobrenome())
-        }
-        return res
-    }
-
-    /**
      * Apresenta o conteúdo da classe.
      * @return "[idUsuario][nome] [sobrenome], [idade]"
      */
     override fun toString(): String {
         return "[$this.idUsuario] $this.nome $this.sobrenome, $this.idade"
+    }
+
+    /**
+     * Permite a comparação com base no Nome, Sobrenome e Idade.
+     * Se os nomes forem iguais, decide a comparação pelos sobrenomes.
+     * Se os nomes e os sobrenomes forem iguais, decide a comparação pelas idades.
+     */
+    class ComparatorByNome : Comparator<Usuario> {
+        /**
+         * Compara os dados de dois objetos [Usuario], utilizando a seguinte ordem de prioridade:
+         * NOME, SOBRENOME e IDADE.
+         * @param [u1] O primeiro objeto [Usuario] a ser comparado.
+         * @param [u2] O segundo objeto [Usuario] a ser comparado.
+         * @return 0, se [u1] == [u2].  <0 se [u1] < [u2].  >0 se [u1] > [u2]
+         */
+        override fun compare(u1: Usuario?, u2: Usuario?): Int {
+            var res = 0
+            if (null == u1) {
+                res = if (null == u2) 0 else -1
+            } else if (null == u2) {
+                res = 1
+            } else {
+                res = u1.nome.compareTo(u2.nome)
+                if (0 == res) {
+                    res = u1.sobrenome.compareTo(u2.sobrenome)
+                } else if (0 == res) {
+                    res = u1.idade.compareTo(u2.idade)
+                }
+            }
+            return res
+        }
+    }
+
+    /**
+     * Permite a comparação com base no Sobrenome, Nome e Idade.
+     * Se os sobrenomes forem iguais, decide a comparação pelos nomes.
+     * Se os sobrenomes e os nomes forem iguais, decide a comparação pelas idades.
+     */
+    class ComparatorBySobrenome : Comparator<Usuario> {
+        /**
+         * Compara os dados de dois objetos [Usuario], utilizando a seguinte ordem de prioridade:
+         * SOBRENOME, NOME e IDADE.
+         * @param [u1] O primeiro objeto [Usuario] a ser comparado.
+         * @param [u2] O segundo objeto [Usuario] a ser comparado.
+         * @return 0, se [u1] == [u2].  <0 se [u1] < [u2].  >0 se [u1] > [u2]
+         */
+        override fun compare(u1: Usuario?, u2: Usuario?): Int {
+            var res = 0
+            if (null == u1) {
+                res = if (null == u2) 0 else -1
+            } else if (null == u2) {
+                res = 1
+            } else {
+                res = u1.sobrenome.compareTo(u2.sobrenome)
+                if (0 == res) {
+                    res = u1.nome.compareTo(u2.nome)
+                } else if (0 == res) {
+                    res = u1.idade.compareTo(u2.idade)
+                }
+            }
+            return res
+        }
+    }
+
+    /**
+     * Permite a comparação com base no Idade, Nome e Sobrenome.
+     * Se as idades forem iguais, decide a comparação pelos nomes.
+     * Se as idades e os nomes forem iguais, decide a comparação pelos sobrenomes.
+     */
+    class ComparatorByIdade : Comparator<Usuario> {
+        /**
+         * Compara os dados de dois objetos [Usuario], utilizando a seguinte ordem de prioridade:
+         * IDADE, NOME e  SOBRENOME.
+         * @param [u1] O primeiro objeto [Usuario] a ser comparado.
+         * @param [u2] O segundo objeto [Usuario] a ser comparado.
+         * @return 0, se [u1] == [u2].  <0 se [u1] < [u2].  >0 se [u1] > [u2]
+         */
+        override fun compare(u1: Usuario?, u2: Usuario?): Int {
+            var res = 0
+            if (null == u1) {
+                res = if (null == u2) 0 else -1
+            } else if (null == u2) {
+                res = 1
+            } else {
+                res = u1.idade.compareTo(u2.idade)
+                if (0 == res) {
+                    res =u1.nome.compareTo(u2.nome)
+                } else if (0 == res) {
+                    res = u1.sobrenome.compareTo(u2.sobrenome)
+                }
+            }
+            return res
+        }
     }
 }

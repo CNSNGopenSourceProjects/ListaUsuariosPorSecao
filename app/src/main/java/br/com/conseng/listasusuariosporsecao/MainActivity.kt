@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     fun ordenarPeloNome() {
         Toast.makeText(this,"Ordenar os usuários pelo nome", Toast.LENGTH_LONG).show()
         adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.NOME)
-        viewsUsuarios.invalidate()
     }
 
     /**
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     fun ordenarPeloSobreome() {
         Toast.makeText(this, "Ordenar os usuários pelo sobrenome", Toast.LENGTH_LONG).show()
         adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.SOBRENOME)
-        viewsUsuarios.invalidate()
     }
 
     /**
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     fun ordenarPelaIdade() {
         Toast.makeText(this,"Ordenar os usuários pela idade", Toast.LENGTH_LONG).show()
         adapter?.ordenaUsuarios(Usuario.DefineDadoParaComparacao.IDADE)
-        viewsUsuarios.invalidate()
     }
 
     /**

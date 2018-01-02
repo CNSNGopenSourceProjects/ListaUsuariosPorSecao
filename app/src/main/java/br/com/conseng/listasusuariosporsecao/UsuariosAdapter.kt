@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import java.util.*
 
 /**
  * Popula a vista com os dados do usuário ordenados pelo nome, ou pelo sobrenome, ou pela idade.
@@ -14,7 +15,7 @@ import android.widget.BaseAdapter
 class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdapter() {
 
     private val listaUsuarios = ArrayList<Usuario>()
-    private var inflator:LayoutInflater?=null
+    private var inflator: LayoutInflater? = null
 
     /**
      * Como os dados devem ser ordenados na tela.
@@ -27,8 +28,7 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
     init {
         listaUsuarios.clear()
         listaUsuarios.addAll(usuarios)
-        inflator= LayoutInflater.from(context)
-        mostraUsuarios()
+        inflator = LayoutInflater.from(context)
     }
 
     /**
@@ -45,7 +45,7 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
      * @return The data at the specified position.
      */
     override fun getItem(position: Int): Usuario {
-        return if (position<0) Usuario() else listaUsuarios.get(position)
+        return if (position < 0) Usuario() else listaUsuarios.get(position)
     }
 
     /**
@@ -92,15 +92,8 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
         } else {
             view = convertView as UsuarioView
         }
-        view.mostraUsuario(getItem(position),getItem(position-1), ordenacao)
+        view.mostraUsuario(getItem(position), getItem(position - 1), ordenacao)
         return view
-    }
-
-    /**
-     * Apresenta os dados dos usuários na tela devidamente ordenados.
-     */
-    private fun mostraUsuarios() {
-        // TODO: como invalidar a tela e garantir seu refrescamento?
     }
 
     /**
@@ -108,15 +101,29 @@ class UsuariosAdapter(context: Context, usuarios: ArrayList<Usuario>) : BaseAdap
      * @param [ordem] Como os dados do usuários devem ser ordenados: pelo NOME, pelo SOBRENOME ou pela idade.
      */
     fun ordenaUsuarios(ordem: Usuario.DefineDadoParaComparacao) {
-        // TODO: ordenar a tabela --- Collection<UsuarioView>
+        when (ordem) {
+            Usuario.DefineDadoParaComparacao.NOME -> {
+                Collections.sort(listaUsuarios, Usuario.ComparatorByNome())
+            }
+            Usuario.DefineDadoParaComparacao.IDADE -> {
+                Collections.sort(listaUsuarios, Usuario.ComparatorByIdade())
+            }
+            Usuario.DefineDadoParaComparacao.SOBRENOME -> {
+                Collections.sort(listaUsuarios, Usuario.ComparatorBySobrenome())
+            }
+            else -> {
+            }
+        }
+        if ((Usuario.DefineDadoParaComparacao.SEM_ORDENACAO != ordem) and (ordenacao != ordem)){
+            notifyDataSetChanged()      //Força a atualização da tela se houve alteração na ordenação
+        }
         ordenacao = ordem
-        mostraUsuarios()
     }
 
     /**
      * Informa quantos usuários estão registrados.
      */
     override fun toString(): String {
-        return "$this.listaUsuarios.size usuários"
+        return String.format("%s usuários", this.listaUsuarios)
     }
 }

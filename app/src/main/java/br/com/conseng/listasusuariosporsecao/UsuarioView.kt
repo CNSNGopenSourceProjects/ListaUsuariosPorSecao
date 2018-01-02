@@ -105,13 +105,13 @@ class UsuarioView : LinearLayout {
             Usuario.DefineDadoParaComparacao.SEM_ORDENACAO -> {
             }
             Usuario.DefineDadoParaComparacao.NOME -> {
-                mostrarGrupo = novoUsuario.getNome().get(0) != usuarioAnterior.getNome().get(0)
+                mostrarGrupo = novoUsuario.nome.get(0) != usuarioAnterior.nome.get(0)
             }
             Usuario.DefineDadoParaComparacao.IDADE -> {
-                mostrarGrupo = novoUsuario.getIdade() != usuarioAnterior.getIdade()
+                mostrarGrupo = novoUsuario.idade != usuarioAnterior.idade
             }
             Usuario.DefineDadoParaComparacao.SOBRENOME -> {
-                mostrarGrupo = novoUsuario.getSobrenome().get(0) != usuarioAnterior.getSobrenome().get(0)
+                mostrarGrupo = novoUsuario.sobrenome.get(0) != usuarioAnterior.sobrenome.get(0)
             }
         }
         nomeDoUsuario.text = identificaUsuario(novoUsuario, ordem)
@@ -128,13 +128,13 @@ class UsuarioView : LinearLayout {
     private fun identificaGrupo(usuario: Usuario, ordem: Usuario.DefineDadoParaComparacao): String {
         when (ordem) {
             DefineDadoParaComparacao.IDADE -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_idade), usuario.getIdade())
+                return String().format(context.getString(R.string.legenda_ordenado_por_idade), usuario.idade)
             }
             DefineDadoParaComparacao.SOBRENOME -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_sobrenome), usuario.getSobrenome().get(0))
+                return String().format(context.getString(R.string.legenda_ordenado_por_sobrenome), usuario.sobrenome.get(0))
             }
             Usuario.DefineDadoParaComparacao.NOME -> {
-                return String().format(context.getString(R.string.legenda_ordenado_por_nome), usuario.getNome().get(0))
+                return String().format(context.getString(R.string.legenda_ordenado_por_nome), usuario.nome.get(0))
             }
             else -> {
                 return ""
@@ -153,14 +153,14 @@ class UsuarioView : LinearLayout {
     private fun identificaUsuario(usuario: Usuario, ordem: DefineDadoParaComparacao): String {
         when (ordem) {
             DefineDadoParaComparacao.IDADE -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_idade), usuario.getNome(), usuario.getSobrenome(), usuario.getIdade())
+                return String().format(context.getString(R.string.usuario_ordenado_por_idade), usuario.nome, usuario.sobrenome, usuario.idade)
             }
             DefineDadoParaComparacao.SOBRENOME -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_sobrenome), usuario.getSobrenome(), usuario.getNome(), usuario.getIdade())
+                return String().format(context.getString(R.string.usuario_ordenado_por_sobrenome), usuario.sobrenome, usuario.nome, usuario.idade)
             }
             DefineDadoParaComparacao.SEM_ORDENACAO,
             DefineDadoParaComparacao.NOME -> {
-                return String().format(context.getString(R.string.usuario_ordenado_por_nome), usuario.getIdade(), usuario.getNome(), usuario.getSobrenome())
+                return String().format(context.getString(R.string.usuario_ordenado_por_nome), usuario.idade, usuario.nome, usuario.sobrenome)
             }
         }
     }
